@@ -1,0 +1,146 @@
+<html>
+	<head>
+		 <link href="https://cdn.lineicons.com/3.0/lineicons.css" rel="stylesheet">
+	</head>
+	<style>
+		body{
+		    background-color:#45177D;
+			display:flex;
+			text-align:center;
+			justify-content:center;
+		}
+		form{
+			background-color:white;
+			box-shadow:0px 2px 5px rgba(0,0,0,0.3);
+			padding:10px;
+		}
+		.form-control{
+			position:relative;
+		}
+		.form-control{
+			text-align:left;
+		}
+		.form-control input{
+			padding:10px;
+			width:600px;
+		}
+		.form-control i{
+			position:absolute;
+			top:30px;
+			right:10px;
+			visibility:hidden;
+		}
+		.form-control small{
+			visibility:visible;
+		}
+		.form-control.success i.lni-checkmark-circle{
+			visibility:visible;
+			color:green;
+		}
+		.form-control.error i.lni-question-circle{
+			visibility:visible;
+			color:red;
+		}
+		#btn{
+			background-color:#45177D;
+			color:white;
+			padding:10px;
+			border-radius:2px;
+		}
+		.form-control small{
+			color:red;
+			visibility:hidden;
+		}
+		.form-control.error small{
+			visibility:visible;	
+		}
+	</style>
+	<body>
+		<form id="form">
+			<h3>Register</h3>
+			<div class="form-control">
+			    <label>Name:</label><br>
+				<input type="text" id="name"/><br><br>
+				 <i class="lni lni-checkmark-circle"></i>
+				 <i class="lni lni-question-circle"></i>
+				 <small></small>
+			</div><br>
+			<div class="form-control">
+			    <label>Email:</label><br>
+				<input type="text" id="email"/><br><br>
+				 <i class="lni lni-checkmark-circle"></i>
+				 <i class="lni lni-question-circle"></i>
+				 <small></small>
+			</div><br>
+			<div class="form-control">
+				<label>Password:</label><br>
+				<input type="password" id="password"/><br><br>
+				 <i class="lni lni-checkmark-circle"></i>
+				 <i class="lni lni-question-circle"></i>
+				 <small></small>
+			</div><br>
+			<div class="form-control">
+				<label>Confirm Password:</label><br>
+				<input type="password" id="confpassword"/><br><br>
+				 <i class="lni lni-checkmark-circle"></i>
+				 <i class="lni lni-question-circle"></i>
+				 <small></small>
+			</div>
+			<input type="submit" id="btn"/>
+		</form>
+	</body>
+	<script>
+		const form = document.getElementById('form');
+		const name = document.getElementById('name');
+		const email = document.getElementById('email');
+		const password = document.getElementById('password');
+		const confpassword = document.getElementById('confpassword');
+		form.addEventListener('submit',function(e){
+			e.preventDefault();
+			checkInput();
+		});
+		function checkInput(){
+			const nameval = name.value.trim();
+			const emailval = email.value.trim();
+			const passwordval = password.value.trim();
+			const confpasswordval = confpassword.value.trim();
+			if(nameval==='')
+				setErrorFor(name,'Name cannot be blank.');
+			else
+				setSuccessFor(name);
+			if(emailval==='')
+				setErrorFor(email,'Email cannot be blank.');
+			else if(!isEmail(emailval))
+				setErrorFor(email,'Email is not valid');
+			else
+				setSuccessFor(email);
+			if(passwordval==='')
+				setErrorFor(password,'Password cannot be blank');
+			else
+				setSuccessFor(password);
+			if(confpasswordval==='')
+				setErrorFor(confpassword,'Confirm Password cannot be blank.');
+			else if(passwordval!==confpasswordval)
+				setErrorFor(confpassword,'Password and Confirm Password did not match.');
+			else
+				setSuccessFor(confpassword);
+		}
+		function setErrorFor(input,message){
+			const formcontrol = input.parentElement;
+			formcontrol.className='form-control error';
+			const small = formcontrol.querySelector('small');
+			small.innerText = message;
+		}
+		function setSuccessFor(input,message){
+			const formcontrol = input.parentElement;
+			formcontrol.className='form-control success';
+		}
+		function isEmail(email)
+		{
+			if(email.indexOf('@')>0)
+				return true;
+			else 
+				return false;
+		}
+	</script>
+</html>
