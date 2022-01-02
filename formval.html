@@ -89,6 +89,7 @@
 			<input type="submit" id="btn"/>
 		</form>
 	</body>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script>
 		const form = document.getElementById('form');
 		const name = document.getElementById('name');
@@ -97,33 +98,67 @@
 		const confpassword = document.getElementById('confpassword');
 		form.addEventListener('submit',function(e){
 			e.preventDefault();
-			checkInput();
+			var validation = checkInput();
+			if(validation)
+				swal("Hurray !", "You have registered successfully.", "success");
+			else
+				swal("Oops!", "Looks like you have entered some incorrect data.", "warning");
 		});
 		function checkInput(){
+		var isvalid = new Array();
 			const nameval = name.value.trim();
 			const emailval = email.value.trim();
 			const passwordval = password.value.trim();
 			const confpasswordval = confpassword.value.trim();
-			if(nameval==='')
+			if(nameval===''){
 				setErrorFor(name,'Name cannot be blank.');
-			else
+				isvalid.push(false);
+				}
+			else{
 				setSuccessFor(name);
-			if(emailval==='')
+				isvalid.push(true);
+				}
+			if(emailval===''){
 				setErrorFor(email,'Email cannot be blank.');
-			else if(!isEmail(emailval))
+				isvalid.push(false);
+				}
+			else if(!isEmail(emailval)){
 				setErrorFor(email,'Email is not valid');
+				isvalid.push(false);
+				}
 			else
+			{
 				setSuccessFor(email);
-			if(passwordval==='')
+				isvalid.push(true);
+			}
+			if(passwordval===''){
+				isvalid.push(false);
 				setErrorFor(password,'Password cannot be blank');
+				}
 			else
+			{
 				setSuccessFor(password);
+				isvalid.push(true);
+			}
 			if(confpasswordval==='')
+			{
 				setErrorFor(confpassword,'Confirm Password cannot be blank.');
+				isvalid.push(false);
+			}
 			else if(passwordval!==confpasswordval)
+			{
 				setErrorFor(confpassword,'Password and Confirm Password did not match.');
+				isvalid.push(false);
+			}
 			else
+			{
 				setSuccessFor(confpassword);
+				isvalid.push(true);
+			}
+			if(isvalid.includes(false))
+				return false;
+			else
+				return true;
 		}
 		function setErrorFor(input,message){
 			const formcontrol = input.parentElement;
